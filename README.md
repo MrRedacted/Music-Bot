@@ -14,4 +14,8 @@ If you choose to make more commands, or event handlers, they need to be put in e
 This bot is made modular enough that new functionality can be added if you so choose.
 Functionality does not necessarily need to be for music playing, as the discord api allows for all sorts of fun and cool stuff.
 
-Enjoy!
+THIS BOT IS NOT TO BE USED IN A MANNER OTHER THAN FOR USE IN YOUR OWN DISCORD SERVER. DO NOT USE THIS SOFTWARE TO CREATE A DISTRIBUTED BOT. PLEASE ONLY USE THIS SOFTWARE TO CREATE A BOT FOR YOUR OWN SERVER.
+
+YouTube has shut down the big, distributed music bots. Do not follow in their footsteps, instead, create your own bot and use this software to enjoy the bot yourself.
+
+With that all being said, enjoy the tunes!
