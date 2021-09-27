@@ -1,7 +1,7 @@
 {
   "name": "music-bot",
   "version": "1.0.0",
-  "description": "long live rythm",
+  "description": "A music bot to replace bots like Rythm",
   "main": "./src/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -12,7 +12,7 @@
     "bot"
   ],
   "author": "Darius Brown",
-  "license": "ISC",
+  "license": "GNU General Public License v3.0",
   "dependencies": {
     "@discordjs/builders": "^0.6.0",
     "@discordjs/opus": "^0.5.3",
