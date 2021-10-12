@@ -24,7 +24,6 @@ module.exports = {
 		let subscription = subscriptions.get(interaction.guildId);
 		const channel = interaction.member.voice.channel;
 
-		await interaction.defer();
 		await interaction.deferReply();
 
 		const song = interaction.options.get('song').value;
