@@ -18,6 +18,7 @@ module.exports = class MusicSubscription {
 		this.voiceConnection = voiceConnection;
 		this.audioPlayer = createAudioPlayer();
 		this.queue = [];
+		this.lastPlayed = {};
 
 		this.voiceConnection.on('stateChange', async (oldState, newState) => {
 			if (newState.status === VoiceConnectionStatus.Disconnected) {
@@ -53,6 +54,7 @@ module.exports = class MusicSubscription {
 		this.audioPlayer.on('stateChange', (oldState, newState) => {
 			if (newState.status === AudioPlayerStatus.Idle && oldState.status !== AudioPlayerStatus.Idle) {
 				console.log('Finished Playing!');
+				this.lastPlayed = oldState.resource.metadata;
 				oldState.resource.metadata.onFinish();
 				this.processQueue();
 			} else if (newState.status === AudioPlayerStatus.Playing) {
