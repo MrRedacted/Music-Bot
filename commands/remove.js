@@ -19,10 +19,7 @@ module.exports = {
 
         if (subscription) {
             const queueItem = subscription.queue[songIndex - 1];
-            if (songIndex - 1 === 0) {
-                subscription.audioPlayer.stop();
-                await interaction.reply('Skipped song!');
-            } else if (queueItem) {
+            if (queueItem) {
                 subscription.queue.splice(songIndex - 1, 1);
                 await interaction.reply(`Removed ${queueItem.title} from the queue!`);
             } else {
