@@ -1,8 +1,6 @@
 const { getInfo, validateURL } = require('ytdl-core');
-const { AudioResource, createAudioResource, demuxProbe, StreamType, createAudioPlayer } = require('@discordjs/voice');
+const { createAudioResource, demuxProbe } = require('@discordjs/voice');
 const { raw: ytdl } = require('youtube-dl-exec');
-const { createReadStream } = require('fs');
-const { join } = require('path');
 const ytsr = require('ytsr');
 
 const noop = () => { };

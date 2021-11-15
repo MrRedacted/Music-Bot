@@ -1,14 +1,12 @@
-const Track = require('../music/track.js');
+const Track = require(__dirname + '/../music/track.js');
 const { GuildMember } = require('discord.js');
-const MusicSubscription = require('../music/subscription.js');
+const MusicSubscription = require(__dirname + '/../music/subscription.js');
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const {
 	entersState,
 	joinVoiceChannel,
 	VoiceConnectionStatus,
 	getVoiceConnection,
-	createAudioPlayer,
-	AudioPlayerStatus,
 } = require('@discordjs/voice');
 
 module.exports = {

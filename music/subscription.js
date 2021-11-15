@@ -1,14 +1,10 @@
 const {
-	AudioPlayer,
 	AudioPlayerStatus,
-	AudioResource,
 	createAudioPlayer,
 	entersState,
-	VoiceConnection,
 	VoiceConnectionDisconnectReason,
 	VoiceConnectionStatus,
 } = require('@discordjs/voice');
-const { Track } = require('./track');
 const { promisify } = require('util');
 
 const wait = promisify(setTimeout);
