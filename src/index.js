@@ -2,8 +2,6 @@ const fs = require('fs');
 const { Client, Collection, Intents } = require('discord.js');
 const { token } = require(__dirname + '/../config.json');
 
-console.log(__dirname);
-
 const client = new Client({ intents: [Intents.FLAGS.GUILDS, Intents.FLAGS.GUILD_VOICE_STATES, 'GUILD_MESSAGES', 'GUILDS'] });
 
 client.commands = new Collection();
