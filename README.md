@@ -1,3 +1,8 @@
+# Bot Permissions and Scopes
+
+Scopes: bot, applications.commands
+Permissions: Read Messages/View Channels, Send Messages, Connect, Speak
+
 # Music-Bot
 
 To use this music bot, you must create a bot through the discord developer portal.

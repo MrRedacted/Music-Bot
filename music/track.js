@@ -1,6 +1,6 @@
 const { getInfo, validateURL } = require('ytdl-core');
 const { createAudioResource, demuxProbe } = require('@discordjs/voice');
-const { raw: ytdl } = require('youtube-dl-exec');
+const { exec: ytdl } = require('youtube-dl-exec');
 const ytsr = require('ytsr');
 
 const noop = () => { };
