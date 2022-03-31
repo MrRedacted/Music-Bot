@@ -12,14 +12,18 @@ module.exports = {
         if (subscription) {
             try {
                 const replayTrack = subscription.lastPlayed;
-                subscription.enqueue(replayTrack);
-                await interaction.editReply(`Enqueued **${replayTrack.title}**`);
+                if (Object.keys(replayTrack).length) {
+                    subscription.enqueue(replayTrack);
+                    await interaction.editReply(`Enqueued **${replayTrack.title}**`);
+                } else {
+                    await interaction.editReply('Nothing has been played yet!')
+                }
             } catch (error) {
                 console.warn(error);
                 await interaction.editReply('Failed to replay track, please try again later!');
             }
         } else {
-            await interaction.reply('Not playing in this server!');
+            await interaction.editReply('Not playing in this server!');
         }
     }
 };

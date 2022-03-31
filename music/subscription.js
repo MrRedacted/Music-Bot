@@ -10,11 +10,14 @@ const { promisify } = require('util');
 const wait = promisify(setTimeout);
 
 module.exports = class MusicSubscription {
-	constructor(voiceConnection) {
+	constructor(voiceConnection, subscriptions, guildId) {
 		this.voiceConnection = voiceConnection;
+		this.subscriptions = subscriptions;
+		this.guildId = guildId;
 		this.audioPlayer = createAudioPlayer();
 		this.queue = [];
 		this.lastPlayed = {};
+		this.timeoutID;
 
 		this.voiceConnection.on('stateChange', async (oldState, newState) => {
 			if (newState.status === VoiceConnectionStatus.Disconnected) {
@@ -76,8 +79,21 @@ module.exports = class MusicSubscription {
 	}
 
 	async processQueue() {
-		if (this.queueLock || this.audioPlayer.state.status !== AudioPlayerStatus.Idle || this.queue.length === 0) {
+		if (this.queueLock || this.audioPlayer.state.status !== AudioPlayerStatus.Idle) {
 			return;
+		}
+
+		if (this.queue.length === 0) {
+			this.timeoutID = setTimeout(() => {
+				this.voiceConnection.destroy();
+				this.subscriptions.delete(this.guildId);
+			}, 180000);
+			return;
+		} else {
+			if (this.timeoutID) {
+				clearTimeout(this.timeoutID);
+				this.timeoutID = undefined;
+			}
 		}
 
 		this.queueLock = true;

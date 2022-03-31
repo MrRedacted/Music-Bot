@@ -1,6 +1,7 @@
 # Bot Permissions and Scopes
 
 Scopes: bot, applications.commands
+
 Permissions: Read Messages/View Channels, Send Messages, Connect, Speak
 
 # Music-Bot

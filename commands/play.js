@@ -35,6 +35,8 @@ module.exports = {
 						guildId: channel.guild.id,
 						adapterCreator: channel.guild.voiceAdapterCreator,
 					}),
+					subscriptions,
+					interaction.guildId
 				);
 				subscription.voiceConnection.on('error', console.warn);
 				subscriptions.set(interaction.guildId, subscription);
@@ -57,10 +59,10 @@ module.exports = {
 		try {
 			const track = await Track.from(song, {
 				onStart() {
-					interaction.followUp({ content: 'Now playing!', ephemeral: true }).catch(console.warn);
+					interaction.followUp({ content: `Now playing ${track.title}!`, ephemeral: true }).catch(console.warn);
 				},
 				onFinish() {
-					interaction.followUp({ content: 'Now finished!', ephemeral: true }).catch(console.warn);
+					interaction.followUp({ content: `Finished playing ${track.title}!`, ephemeral: true }).catch(console.warn);
 				},
 				onError(error) {
 					console.warn(error);
