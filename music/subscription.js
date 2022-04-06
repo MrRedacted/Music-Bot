@@ -87,7 +87,7 @@ module.exports = class MusicSubscription {
 			this.timeoutID = setTimeout(() => {
 				this.voiceConnection.destroy();
 				this.subscriptions.delete(this.guildId);
-			}, 180000);
+			}, 180000); //this should be around 180000 in production (3 minutes), but can be adjusted as needed
 			return;
 		} else {
 			if (this.timeoutID) {

@@ -74,6 +74,7 @@ module.exports = {
 		} catch (error) {
 			console.warn(error);
 			await interaction.editReply('Failed to play track, please try again later!');
+			subscription.processQueue();
 		}
 	}
 };
