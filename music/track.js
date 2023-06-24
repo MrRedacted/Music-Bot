@@ -35,7 +35,7 @@ module.exports = class Track {
         return;
       }
       const stream = process.stdout;
-      console.log(stream);
+      //console.log(stream);
       const onError = (error) => {
         if (!process.killed) process.kill();
         stream.resume();
