@@ -14,15 +14,15 @@
   "author": "Darius Brown",
   "license": "GNU General Public License v3.0",
   "dependencies": {
-    "@discordjs/builders": "^1.6.3",
+    "@discordjs/builders": "^1.6.5",
     "@discordjs/opus": "^0.9.0",
-    "@discordjs/rest": "^1.7.1",
+    "@discordjs/rest": "^2.0.1",
     "@discordjs/voice": "^0.16.0",
-    "discord-api-types": "^0.37.46",
-    "discord.js": "^14.11.0",
+    "discord-api-types": "^0.37.54",
+    "discord.js": "^14.13.0",
     "libsodium-wrappers": "^0.7.11",
-    "youtube-dl-exec": "^2.4.5",
-    "ytdl-core": "^4.11.4",
-    "ytsr": "^3.8.2"
+    "youtube-dl-exec": "^2.4.7",
+    "ytdl-core": "^4.11.5",
+    "ytsr": "^3.8.4"
   }
 }
