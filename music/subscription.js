@@ -1,15 +1,15 @@
-const {
+import {
   AudioPlayerStatus,
   createAudioPlayer,
   entersState,
   VoiceConnectionDisconnectReason,
   VoiceConnectionStatus,
-} = require("@discordjs/voice");
-const { promisify } = require("util");
+} from "@discordjs/voice";
+import { promisify } from "util";
 
 const wait = promisify(setTimeout);
 
-module.exports = class MusicSubscription {
+export class MusicSubscription {
   constructor(voiceConnection, subscriptions, guildId) {
     this.voiceConnection = voiceConnection;
     this.subscriptions = subscriptions;
@@ -19,7 +19,7 @@ module.exports = class MusicSubscription {
     this.lastPlayed = {};
     this.timeoutID;
 
-    this.voiceConnection.on("stateChange", async (oldState, newState) => {
+    this.voiceConnection.on("stateChange", async (_, newState) => {
       if (newState.status === VoiceConnectionStatus.Disconnected) {
         if (
           newState.reason === VoiceConnectionDisconnectReason.WebSocketClose &&
@@ -29,7 +29,7 @@ module.exports = class MusicSubscription {
             await entersState(
               this.voiceConnection,
               VoiceConnectionStatus.Connecting,
-              5_000
+              5_000,
             );
           } catch {
             this.voiceConnection.destroy();
@@ -52,14 +52,14 @@ module.exports = class MusicSubscription {
           await entersState(
             this.voiceConnection,
             VoiceConnectionStatus.Ready,
-            20_000
+            20_000,
           );
         } catch {
           if (
             this.voiceConnection.state.status !==
             VoiceConnectionStatus.Destroyed
           )
-            this.VoiceConnection.destroy();
+            this.voiceConnection.destroy();
         } finally {
           this.readyLock = false;
         }
@@ -82,7 +82,7 @@ module.exports = class MusicSubscription {
     });
 
     this.audioPlayer.on("error", (error) =>
-      error.resource.metadata.onError(error)
+      error.resource.metadata.onError(error),
     );
 
     voiceConnection.subscribe(this.audioPlayer);
@@ -134,4 +134,4 @@ module.exports = class MusicSubscription {
       return this.processQueue();
     }
   }
-};
+}

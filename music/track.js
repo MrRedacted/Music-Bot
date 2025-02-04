@@ -1,11 +1,12 @@
-const { getInfo, validateURL } = require("ytdl-core");
-const { createAudioResource, demuxProbe } = require("@discordjs/voice");
-const { exec: ytdl } = require("youtube-dl-exec");
-const ytsr = require("ytsr");
+import ytdlCore from "@distube/ytdl-core";
+import { createAudioResource, demuxProbe } from "@discordjs/voice";
+import youtubeDlExec from "youtube-dl-exec";
+import ytsr from "@distube/ytsr";
 
-const noop = () => {};
+const { getInfo, validateURL } = ytdlCore;
+const { exec: ytdl } = youtubeDlExec;
 
-module.exports = class Track {
+export class Track {
   constructor({ url, title, onStart, onFinish, onError }) {
     this.url = url;
     this.title = title;
@@ -16,45 +17,47 @@ module.exports = class Track {
 
   createAudioResource() {
     return new Promise((resolve, reject) => {
-      /* use ytdl to get the audio stream for the video requested,
+      /* use ytdl exec to get the audio stream for the video requested,
         note that the "f" flag used to get "bestaudio[ext=webm+acodec=opus+asr=48000]/bestaudio"
         passed as the value, this for some reason no longer works as ytdl will return nothing if used,
         instead I now use only "bestaudio" as the value and this seems to work just fine */
-      const process = ytdl(
+      this.process = ytdl(
         this.url,
         {
           o: "-",
           q: "",
           f: "bestaudio",
-          r: "100K",
+          r: "1M",
         },
-        { stdio: ["ignore", "pipe", "ignore"] }
+        { stdio: ["ignore", "pipe", "ignore"] },
       );
-      if (!process.stdout) {
+      if (!this.process.stdout) {
         reject(new Error("No stdout"));
         return;
       }
-      const stream = process.stdout;
-      //console.log(stream);
+      this.stream = this.process.stdout;
       const onError = (error) => {
-        if (!process.killed) process.kill();
-        stream.resume();
+        if (this.process.connected) this.process.disconnect();
+        this.stream.destroy();
         reject(error);
+        return;
       };
-      process
-        .once("spawn", () => {
-          demuxProbe(stream)
-            .then((probe) =>
-              resolve(
-                createAudioResource(probe.stream, {
-                  metadata: this,
-                  inputType: probe.type,
-                })
-              )
-            )
-            .catch(onError);
-        })
-        .catch(onError);
+      this.process.once("spawn", async () => {
+        try {
+          const probe = await demuxProbe(this.stream);
+          resolve(
+            createAudioResource(probe.stream, {
+              metadata: this,
+              inputType: probe.type,
+            }),
+          );
+        } catch (error) {
+          onError(error);
+        }
+      });
+      this.process.catch((error) => {
+        onError(error);
+      });
     });
   }
 
@@ -65,25 +68,19 @@ module.exports = class Track {
       info = await getInfo(song);
       url = song;
     } else {
-      const filters = await ytsr.getFilters(song);
-      const filter = filters.get("Type").get("Video");
-      const options = { pages: 1 };
-      const searchResults = await ytsr(filter.url, options);
+      const searchResults = await ytsr(song, { pages: 1, type: "video" });
       info = await getInfo(searchResults.items[0].url);
       url = searchResults.items[0].url;
     }
 
     const wrappedMethods = {
       onStart() {
-        wrappedMethods.onStart = noop;
         methods.onStart();
       },
       onFinish() {
-        wrappedMethods.onFinish = noop;
         methods.onFinish();
       },
       onError(error) {
-        wrappedMethods.onError = noop;
         methods.onError(error);
       },
     };
@@ -94,4 +91,4 @@ module.exports = class Track {
       ...wrappedMethods,
     });
   }
-};
+}
